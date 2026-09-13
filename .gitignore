@@ -3,3 +3,4 @@ design.md
 data/raw/
 .venv/
 __pycache__/
+data/*.db
