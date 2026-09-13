@@ -1,0 +1,54 @@
+region_code,region_name,zone,area_type
+28,Toronto - Downtown Core,Toronto,urban
+8,Mississauga - Central,Peel,suburban
+46,Brampton - East,Peel,suburban
+41,Scarborough - Central,Toronto,urban
+15,North York - Central,Toronto,urban
+30,Etobicoke - Central,Toronto,urban
+29,Vaughan - South,York,suburban
+50,Markham - South,York,suburban
+3,Toronto - Midtown,Toronto,urban
+11,Mississauga - North,Peel,suburban
+36,Brampton - West,Peel,suburban
+33,Scarborough - East,Toronto,urban
+47,North York - East,Toronto,urban
+35,Oakville - North,Halton,suburban
+6,Oshawa - Central,Durham,suburban
+45,Toronto - West End,Toronto,urban
+37,Richmond Hill - South,York,suburban
+18,Burlington - Central,Halton,suburban
+48,Mississauga - South,Peel,suburban
+14,Brampton - North,Peel,suburban
+39,Scarborough - West,Toronto,urban
+10,North York - West,Toronto,urban
+21,Etobicoke - North,Toronto,urban
+2,Whitby,Durham,suburban
+13,Ajax,Durham,suburban
+7,Toronto - East End,Toronto,urban
+12,Vaughan - North,York,suburban
+9,Markham - North,York,suburban
+27,Pickering,Durham,suburban
+32,Toronto - Waterfront,Toronto,urban
+43,Etobicoke - South,Toronto,urban
+17,Oakville - South,Halton,suburban
+26,Richmond Hill - North,York,suburban
+25,Toronto - Financial District,Toronto,urban
+24,Newmarket,York,suburban
+38,Milton,Halton,suburban
+0,Burlington - North,Halton,suburban
+16,Scarborough - North,Toronto,urban
+23,East York,Toronto,urban
+31,Oshawa - North,Durham,suburban
+20,Aurora,York,suburban
+49,North York - South,Toronto,urban
+4,York (Old City),Toronto,urban
+34,Clarington,Durham,rural
+19,Caledon,Peel,rural
+22,Halton Hills,Halton,rural
+40,Whitchurch-Stouffville,York,rural
+5,Georgina,York,rural
+1,King,York,rural
+44,East Gwillimbury,York,rural
+42,Uxbridge,Durham,rural
+52,Scugog,Durham,rural
+51,Brock,Durham,rural

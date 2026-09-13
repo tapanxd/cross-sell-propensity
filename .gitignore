@@ -4,3 +4,5 @@ data/raw/
 .venv/
 __pycache__/
 data/*.db
+# large derived outputs — regenerate from the .pbix via DAX Studio (see README)
+data/processed/*.csv
