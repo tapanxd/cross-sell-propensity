@@ -14,3 +14,10 @@ One line each: what was chosen and why. Earlier decisions (Phases 1–3, made by
 - Tiers: thresholds from train-set score quantiles. High = top 20% (prob >= 0.297), Medium = next 30% (>= 0.037), Low = bottom 50%. On test, Low holds 1.3% of all yes.
 - Every customer is scored, with a `split` column so the dashboard computes validation measures on test rows only.
 - `customer_scores.csv` is gitignored like the other processed CSVs; the script regenerates it in about 1 minute. Small outputs (`reports/`) are committed.
+- Power BI model: `train_cleaned` and `customer_scores` as two tables joined 1:1 on id (both directions) rather than merged, because the scores come from a separate system and refresh on their own. Region/channel stay flattened into `train_cleaned` (from Phase 3); `region_map`/`channel_map` load is disabled to avoid unconnected tables.
+- All dashboard numbers are measures; calculated columns only for sort keys (tier, Vehicle_Age, Premium Band).
+- Validation measures (rates, lift, captured share) filter to `split = "test"`; lift baseline removes only the tier filter, so lift is "this tier vs calling this slice at random".
+- "Expected Responders" = sum of calibrated probabilities, labelled as a model estimate under the original campaign's conditions, not revenue.
+- Time intelligence is included as optional only: it needs an assumed snapshot date (2024-12-31) to turn Vintage into a join date, and tenure has no predictive signal.
+- Dashboard leaves off Tenure, Premium Band, Gender and the model plots: they don't change who gets called.
+- Every measure's expected value is computed independently in pandas (`python/04_dax_check_values.py`) so the Power BI build can be checked number by number.

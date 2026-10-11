@@ -83,3 +83,15 @@ Running list of what I learned and the judgement calls I made. Plain words. Add 
 - Test results: AUC 0.853. Top 20% -> 34.7% yes, 2.8x random, 57% of all yes. Top 50% -> 98.7% of all yes. Bottom 50% (Low tier) -> 0.3% yes-rate.
 - Coefficients are "holding everything else equal", so they can disagree with raw group averages (Vehicle_Age 1-2 Year shows negative once age and damage are accounted for).
 - Train rows were seen in training, so dashboard validation uses test rows only (`split` column).
+
+## Phase 5 — Power BI model and DAX
+- Calculated column = computed once per row at refresh, stored. Measure = computed for whatever is filtered, every time a visual draws. Rates, totals and lift are always measures. "Response rate" as a column would just be 0 or 1 per row.
+- Text sorts alphabetically (High, Low, Medium). A numeric sort-key column plus "Sort by column" fixes it. This is a legitimate use of a calculated column.
+- Filter context = the filters coming from the visual row, slicers and page. CALCULATE changes it: it can add a filter (split = test), remove one (REMOVEFILTERS tier) or replace one (tier = High).
+- Lift vs random, in plain words: the yes-rate of the tier ÷ the yes-rate you'd get calling the same slice at random. The random rate = the same measure with the tier filter removed. Lift is relative to the slice, so High-tier lift is 3.6x in Peel but 2.4x in Toronto, because Toronto's baseline is already higher.
+- 1:1 relationship: Power BI forces "Both" directions. It's needed because the tier filter sits in the scores table while the rows being counted sit in the customer table, and vice versa for region.
+- Many to one suggested on an id-to-id relationship = a duplicate or mismatched type somewhere. Check before accepting.
+- Dashboard design: lead with the decision (who to call), drill down for where, drill through for the actual list, and keep the "why" and the model check for last. Leave off anything that doesn't change the decision: tenure, premium band, model curves.
+- Findings the dashboard will show: High tier = 20% of customers, 57% of the yeses, 2.82x random. Toronto has 72% of the High tier. The biggest channel (Web / Aggregator, code 152) has no High-tier customers at all.
+- Time intelligence needs a real date. Vintage is days, so a join date needs an assumed snapshot date, which is invented. Fine to practise, but label it as illustrative.
+- Check DAX against an independent calculation (pandas) before trusting it.

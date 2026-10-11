@@ -7,7 +7,9 @@
 | 3 | SQL profiling + cleanup | done | `sql/`, `docs/02_data_quality_log.md` |
 | 4 | Power Query merges + features | done | `.pbix`, `powerquery/*.m`, `python/02_build_features.py` (matches PBI export cell for cell) |
 | 5 | Model | done | `python/03_train_score.py`, `reports/`, `data/processed/customer_scores.csv` (LR, test AUC 0.853, top-20% lift 2.8x) |
-| 6 | Power BI model + DAX | not started | |
+| 6 | Power BI model + DAX | spec done; **pbix assembly by hand pending** | `dax/`, `docs/powerbi_steps.md`, `reports/dax_check_values.md` |
 | 7 | Write-up | not started | |
 
-**Next step:** Phase 6 — DAX measures, relationship diagram and dashboard spec in `dax/`.
+**Next step:** Phase 7 — README run order, `docs/summary.md`, `docs/interview_notes.md`.
+
+**Your manual step:** build the dashboard in Power BI Desktop following `docs/powerbi_steps.md` and check it against `reports/dax_check_values.md`.
