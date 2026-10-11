@@ -2,39 +2,54 @@
 
 Which existing health-insurance customers are the best candidates for a second product (vehicle insurance), and how should a sales team prioritise outreach when time is limited?
 
-An end-to-end analytics project: SQL → Power Query → Python → Power BI → business memo. Built as a learning exercise in Power BI / DAX and business framing; every judgement call is documented in `docs/`.
+An end-to-end analytics project: SQL → Power Query → Python → Power BI → business memo. Every judgement call is documented in `docs/`.
+
+**Result (held-out test set, 76,222 customers):** ROC-AUC 0.853. The top-scored 20% of customers accepted at 34.6% vs 12.3% at random (**2.8× lift**) and held 57% of all acceptances. The bottom 50% accepted at 0.3%. → [`docs/summary.md`](docs/summary.md)
 
 ## Data
-
-- **Kaggle — Health Insurance Cross Sell Prediction** (`train.csv`, 381,109 rows). Customers who hold a health policy and were pitched vehicle insurance; `Response` records whether they accepted (~12%).
-- **Synthetic reference tables** (`data/reference/`): `region_map` (53 region codes → GTA municipality, zone, urban/suburban/rural) and `channel_map` (155 channel codes → name, channel type). These stand in for the lookup tables a real analyst would request from other systems. Nothing in them is derived from `Response`.
-
-`Annual_Premium` is in INR and is not converted.
+- **Kaggle: Health Insurance Cross Sell Prediction** (`train.csv`, 381,109 rows). Customers who hold a health policy and were offered vehicle insurance; `Response` = accepted (12.26%).
+- **Synthetic reference tables** (`data/reference/`): `region_map` (53 region codes → GTA area, zone, urban/suburban/rural) and `channel_map` (155 channel codes → name, type). Stand-ins for the lookup tables a real analyst would request. Nothing in them is derived from `Response`.
+- `Annual_Premium` is in INR, not converted.
 
 ## Pipeline
+| # | Phase | Tool | Output | Explainer |
+|---|---|---|---|---|
+| 1 | Data | Kaggle | `data/raw/train.csv` | [phase 1–3](docs/explain/phase_1-3_foundation.md) |
+| 2 | Reference tables | — | `data/reference/*.csv` | [03_reference_tables](docs/03_reference_tables.md) |
+| 3 | Profile + clean | SQLite | `sql/`, `train_cleaned` | [02_data_quality_log](docs/02_data_quality_log.md) |
+| 4 | Joins + features | Power Query (+ pandas mirror) | `powerquery/*.m`, `engineered.csv` | [phase 4](docs/explain/phase_4_power_query.md) |
+| 5 | Model | Python / scikit-learn | `customer_scores.csv`, `reports/` | [phase 5](docs/explain/phase_5_model.md) |
+| 6 | Data model + DAX + dashboard | Power BI | `dax/`, `.pbix` | [phase 6](docs/explain/phase_6_powerbi.md) |
+| 7 | Write-up | — | `docs/summary.md`, `docs/interview_notes.md` | [phase 7](docs/explain/phase_7_writeup.md) |
 
-| Phase | Tool | What happens | Where |
-|---|---|---|---|
-| 1 | — | Frame the business question | `docs/01_problem_statement.md` |
-| 2 | SQLite | Profile, then clean. Types corrected, nothing removed. | `sql/`, `docs/02_data_quality_log.md` |
-| 3 | Power Query | Left-join reference tables; add Tenure Band, Premium Band, Channel Group | `data/processed/cross_sell.pbix` |
-| 4 | Python | Stratified split, logistic regression baseline, score + tier every customer | `python/` (in progress) |
-| 5 | Power BI | Data model, DAX measures (tier counts, lift vs random), dashboard | `cross_sell.pbix` (in progress) |
-| 6 | — | One-page business memo + 90-second verbal version | `docs/` (in progress) |
+Status: [`PROGRESS.md`](PROGRESS.md). Decisions: [`docs/decisions.md`](docs/decisions.md).
 
-## Rebuild from scratch
+## Run order
+Requires Python 3.13 with `pip install -r requirements.txt`, DB Browser for SQLite, Power BI Desktop, the 64-bit SQLite ODBC driver and DAX Studio.
 
 1. Download `train.csv` from Kaggle into `data/raw/` (gitignored).
-2. In DB Browser for SQLite, create `data/cross_sell.db` and import `train.csv` as table `train`, plus the two CSVs in `data/reference/`.
-3. Run `sql/01_profile.sql` (diagnostics only) and `sql/02_clean.sql` (creates `train_cleaned`).
-4. Set up a SQLite ODBC DSN named `cross_sell` pointing at the `.db`, open the `.pbix`, and Refresh.
-5. Export the engineered table with DAX Studio: connect to the open pbix, run `EVALUATE 'train_cleaned'`, output to `data/processed/engineered.csv` (gitignored, ~60 MB).
-6. Python: `python -m venv .venv`, activate, `pip install -r requirements.txt`.
+2. In DB Browser, create `data/cross_sell.db`. Import `train.csv` as table `train`, and `data/reference/region_map.csv` / `channel_map.csv` as `region_map` / `channel_map`.
+3. Run `sql/01_profile.sql` (diagnostics only), then `sql/02_clean.sql` (creates `train_cleaned`, ends with a row-count check).
+4. Create an ODBC DSN `cross_sell` → `data/cross_sell.db`. Open `data/processed/cross_sell.pbix` and Refresh (steps: [`docs/powerquery_steps.md`](docs/powerquery_steps.md)).
+5. Export the engineered table: DAX Studio → `EVALUATE 'train_cleaned'` → output File → `data/processed/engineered.csv`.
+6. `python python/02_build_features.py`: rebuilds the same table in pandas and checks it matches the Power BI export. (If you skip steps 4–5, the model falls back to this pandas output.)
+7. `python python/01_train_score.py`: EDA, yes-rate by group.
+8. `python python/03_train_score.py`: trains, evaluates, writes `customer_scores.csv`, `reports/metrics.json` and `reports/figures/` (about 1 min).
+9. `python python/04_dax_check_values.py`: expected value for every DAX measure → `reports/dax_check_values.md`.
+10. In Power BI, follow [`docs/powerbi_steps.md`](docs/powerbi_steps.md): load the scores, build the relationship, measures and the 4 dashboard pages.
 
-## Constraint
+## Repo layout
+```
+data/raw/          Kaggle CSV (gitignored)
+data/reference/    synthetic region/channel tables
+data/processed/    .pbix; engineered + scored CSVs (gitignored, regenerated)
+sql/               profiling and cleaning scripts
+powerquery/        M for every Power Query query
+python/            EDA, pandas mirror, model, DAX check values
+dax/               measures, model diagram, dashboard spec
+reports/           metrics.json, coefficients, figures, DAX check values
+docs/              problem statement, data-quality log, decisions, explainers, summary, interview notes
+```
 
-There is no real customer base behind this. No dollar or percentage impact figures are claimed. Success is methodological — the model beats random targeting on a held-out test set — and validating against real outcome data is noted as the limitation.
-
-## Notes
-
-`docs/00_learning_log.md` is a running list of concepts learned and decisions made, written for interview prep.
+## Constraint and limitations
+There is no real customer base behind this. No dollar or efficiency figures are claimed. Model results (AUC, lift) are real **on the Kaggle data**. `Response` comes from that public dataset, not from a company's own campaign history, so the validation plan in `docs/summary.md` (a randomised pilot) is the step before acting on it. Region and channel names are illustrative labels for the dataset's codes.

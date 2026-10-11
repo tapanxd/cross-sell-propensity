@@ -95,3 +95,10 @@ Running list of what I learned and the judgement calls I made. Plain words. Add 
 - Findings the dashboard will show: High tier = 20% of customers, 57% of the yeses, 2.82x random. Toronto has 72% of the High tier. The biggest channel (Web / Aggregator, code 152) has no High-tier customers at all.
 - Time intelligence needs a real date. Vintage is days, so a join date needs an assumed snapshot date, which is invented. Fine to practise, but label it as illustrative.
 - Check DAX against an independent calculation (pandas) before trusting it.
+
+## Phase 6 — write-up
+- Lead with the recommendation, not the process. Four lines: call High, skip Low, extend with Medium, rank hardest outside Toronto.
+- Only quote numbers that were measured (test set, raw data). No revenue, no "efficiency". Impact is described as how it would be tested.
+- Validation plan = randomised pilot. Call a random half of the High tier and hold the other half back, plus a small random sample of Medium and Low. The only difference between the groups is the call, so the gap in acceptance is the real lift.
+- Say the limits before being asked: one public campaign, channel effect vs customer mix can't be separated, labels are synthetic.
+- The model mostly runs on two facts (already insured, past damage). That's a finding: a simple "don't call" rule covers half the base even without a model.

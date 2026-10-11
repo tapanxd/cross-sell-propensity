@@ -21,3 +21,5 @@ One line each: what was chosen and why. Earlier decisions (Phases 1–3, made by
 - Time intelligence is included as optional only: it needs an assumed snapshot date (2024-12-31) to turn Vintage into a join date, and tenure has no predictive signal.
 - Dashboard leaves off Tenure, Premium Band, Gender and the model plots: they don't change who gets called.
 - Every measure's expected value is computed independently in pandas (`python/04_dax_check_values.py`) so the Power BI build can be checked number by number.
+- Memo (`docs/summary.md`) leads with four recommendations, uses only test-set or raw-data numbers, and proposes a randomised pilot as the validation step instead of claiming impact.
+- Interview prep split in two: `docs/interview_notes.md` (short: 90-second script, decision table, expected questions) and `docs/00_learning_log.md` (long, running).
