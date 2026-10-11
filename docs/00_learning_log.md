@@ -68,3 +68,18 @@ Running list of what I learned and the judgement calls I made. Plain words. Add 
 - The newer .pbix format keeps M compressed inside `DataModel`, so it can't be read back out of the file. I keep a copy of each query as a `.m` file in `powerquery/`.
 - Cross-check between tools: the same transforms rebuilt in pandas (`python/02_build_features.py`) match the Power Query export on every cell. If two tools agree, a typo in one of them would have shown up.
 - `merge(validate="many_to_one")` in pandas is the fan-out check built in. It errors if the right-hand table has a duplicate key.
+
+## Phase 4 — model (Python)
+- What the EDA showed (yes-rate by group, overall 12.26%): already insured 0.09% vs 22.6% not. No past vehicle damage 0.5% vs 23.8% with damage. Vehicle age 4% / 17% / 29%. Age is a hump: 20s 4%, 30-49 ~21%, 70+ ~7%. Tenure is flat (12.2 / 12.3 / 12.3), so it has no signal. A flat result is a finding too.
+- Low-cardinality categories (3-6 values) are the easiest for a model, not a problem. The problem is 155 values with a handful of rows each.
+- You don't have to know in advance whether a feature matters. A useless feature just gets a coefficient near zero. Looking first (EDA) still pays off, because it gives the memo its descriptive findings.
+- One-hot encoding turns a text column into one 0/1 column per value. Scaling puts Age (20-85) and Premium (2.6K-540K) on the same footing for logistic regression. Trees don't need either.
+- Fit the scaler/encoder on train only. A `Pipeline` guarantees this, because cross-validation refits it on each training fold.
+- Stratified split: 304,887 train / 76,222 test, both exactly 12.26% yes.
+- Cross-validation = split the training set 5 ways, train on 4, score on 1, rotate. It gives a model-choice score without touching the test set.
+- LR 0.852 vs trees 0.857 AUC. I kept LR because 0.005 isn't worth losing explainable coefficients (design.md: interpretability first). Be honest that this rule was set after seeing the gap.
+- class_weight='balanced' makes a missed yes cost more during training. Side effect: scores average about 0.5, not 0.12. Calibration (isotonic) maps them back to real rates without changing the order.
+- At a 0.5 cut-off: recall 92%, precision 28%. You can't max both. Tiers replace the single cut-off, and the business picks how deep to call.
+- Test results: AUC 0.853. Top 20% -> 34.7% yes, 2.8x random, 57% of all yes. Top 50% -> 98.7% of all yes. Bottom 50% (Low tier) -> 0.3% yes-rate.
+- Coefficients are "holding everything else equal", so they can disagree with raw group averages (Vehicle_Age 1-2 Year shows negative once age and damage are accounted for).
+- Train rows were seen in training, so dashboard validation uses test rows only (`split` column).

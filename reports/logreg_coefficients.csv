@@ -1,0 +1,80 @@
+,coefficient
+bin__Previously_Insured,-3.972264593795556
+cat__Channel Group_Outbound Call Centre,-1.6192270575880645
+cat__Age Band_80-89,-1.0008552905816803
+cat__Channel Group_SMS / WhatsApp,-0.9136671871576314
+cat__Age Band_70-79,-0.8707904445681697
+cat__Channel Group_Web / Aggregator,-0.7651649992492006
+cat__region_name_Burlington - North,-0.7577407043404616
+cat__Vehicle_Age_1-2 Year,-0.6679910760002947
+cat__region_name_East Gwillimbury,-0.6228601816524918
+cat__Vehicle_Age_< 1 Year,-0.5687800461288358
+cat__region_name_Richmond Hill - North,-0.49006838968243155
+cat__Age Band_60-69,-0.4781963262129819
+cat__region_name_Halton Hills,-0.4648795604075888
+cat__region_name_Toronto - Financial District,-0.4571795948002981
+cat__region_name_Mississauga - South,-0.4417668332033971
+cat__region_name_Clarington,-0.43473019801236623
+cat__region_name_Uxbridge,-0.41994880841829224
+cat__region_name_King,-0.40894920596515427
+cat__Vehicle_Age_> 2 Years,-0.40779063522881137
+cat__region_name_Markham - South,-0.3843733012261191
+cat__region_name_Aurora,-0.32347758989881864
+cat__region_name_Markham - North,-0.27515265099220915
+cat__region_name_Etobicoke - South,-0.2653757912966618
+cat__region_name_Oshawa - North,-0.24533977621749417
+cat__region_name_Whitby,-0.19814494314964237
+cat__region_name_North York - East,-0.1848273400587065
+cat__region_name_North York - South,-0.16778688287669213
+cat__region_name_North York - Central,-0.14687542792320465
+cat__region_name_Oakville - South,-0.11568365639603456
+cat__region_name_Scarborough - North,-0.11110588015025205
+cat__region_name_Mississauga - Central,-0.07294485947244156
+cat__region_name_Pickering,-0.05917089602786271
+cat__region_name_Whitchurch-Stouffville,-0.05403271582220451
+cat__region_name_Brampton - West,-0.03564810099304199
+cat__region_name_Scarborough - West,-0.034706442426885635
+cat__region_name_Richmond Hill - South,-0.028420391409711553
+cat__Age Band_20-29,-0.024973633229841426
+cat__region_name_Scugog,-0.02065265388822932
+cat__region_name_North York - West,-0.016083424490682018
+cat__Age Band_50-59,-0.014895851017715876
+cat__region_name_Scarborough - East,0.004952955157471958
+cat__Channel Group_Other,0.011402001036488515
+prem__Annual_Premium,0.02033769010507958
+cat__region_name_Toronto - East End,0.023211033057151075
+cat__region_name_Ajax,0.026596007945441716
+cat__region_name_Vaughan - North,0.0524541101120959
+cat__region_name_Brampton - East,0.05295404676682144
+cat__Channel Group_Inbound Helpline,0.054301722726755514
+cat__Gender_Male,0.07786536488653197
+cat__region_name_Toronto - Waterfront,0.10746182568202788
+cat__Channel Group_Bank Partner,0.11415765621841156
+cat__Channel Group_Broker Network,0.1169865484200921
+cat__region_name_Newmarket,0.129947304101998
+cat__region_name_Brock,0.16279891557464918
+cat__region_name_Toronto - West End,0.1699008127524043
+cat__region_name_Brampton - North,0.1727200005356656
+cat__region_name_Toronto - Downtown Core,0.17999750352800148
+cat__region_name_Caledon,0.19913146576238916
+cat__region_name_York (Old City),0.20230066799336097
+cat__region_name_Etobicoke - North,0.23076430458520375
+cat__Age Band_40-49,0.23692616744325895
+cat__region_name_Georgina,0.23693016596570174
+cat__Channel Group_Car Dealership,0.2505308315805082
+cat__region_name_East York,0.25142907387495744
+cat__region_name_Toronto - Midtown,0.29069305445128585
+cat__region_name_Oshawa - Central,0.3008225532900382
+cat__Channel Group_Tied Agency,0.30312846110513847
+cat__region_name_Etobicoke - Central,0.30901670323138514
+cat__region_name_Milton,0.3231961614075654
+cat__Channel Group_Branch Walk-in,0.32815159893193174
+cat__region_name_Oakville - North,0.38538639369555844
+cat__region_name_Scarborough - Central,0.394027345268813
+cat__region_name_Vaughan - South,0.4196823359285723
+cat__region_name_Burlington - Central,0.4214243846988173
+cat__Channel Group_Direct Mail,0.47483866661605195
+cat__Age Band_30-39,0.5082236208079491
+cat__region_name_Mississauga - North,0.5455653184729005
+bin__Driving_License,0.9870747888656338
+cat__Vehicle_Damage_Yes,1.9506474411034125
