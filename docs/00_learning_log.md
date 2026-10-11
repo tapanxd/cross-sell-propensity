@@ -60,3 +60,11 @@ Running list of what I learned and the judgement calls I made. Plain words. Add 
 - The query icon turning to `ABC` means the query returns a text value, not a table — a bad step. Find it in Applied Steps and delete it.
 - Query Settings / Applied Steps pane: View tab → Query Settings if hidden.
 - Grouped channel: `channel_type` (6 kinds, from the merge) answers "which kind of channel works". A separate `Channel Group` (top-10 codes by name + "Other") answers "which specific channels matter" — different question, worth both. "Is one of" in M is `List.Contains`.
+
+## Phase 3 wrap-up (from the Definition of Done)
+- Join type, full answer: left outer keeps every customer. Inner would give the same 381,109 today because there are 0 orphans. But the day a new code shows up upstream, inner silently drops those customers and left keeps them with a blank. A duplicate code in a reference table would show up as MORE than 381,109 rows (fan-out), which is why I checked distinct id = count and not just the count.
+- Four premium bands: the 2,630 floor is 17% of customers. Folding it into "low" would make low 45%, and any tercile cut taken over all rows lands inside the spike.
+- Exporting 381K rows out of Power BI: the table visual's "Export data" stops at 30,000 rows. DAX Studio (`EVALUATE 'table'`, output to File) has no limit.
+- The newer .pbix format keeps M compressed inside `DataModel`, so it can't be read back out of the file. I keep a copy of each query as a `.m` file in `powerquery/`.
+- Cross-check between tools: the same transforms rebuilt in pandas (`python/02_build_features.py`) match the Power Query export on every cell. If two tools agree, a typo in one of them would have shown up.
+- `merge(validate="many_to_one")` in pandas is the fan-out check built in. It errors if the right-hand table has a duplicate key.
